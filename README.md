@@ -57,7 +57,7 @@
 | city       | string     | null: false                    |
 | address    | string     | null: false                    |
 | building   | string     |                                |
-| phon       | string     | null: false                    |
+| phone      | string     | null: false                    |
 | purchase   | references | null: false, foreign_key: true |
 
 
