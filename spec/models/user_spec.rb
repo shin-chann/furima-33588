@@ -5,6 +5,10 @@ RSpec.describe User, type: :model do
     @user = FactoryBot.build(:user)
   end
 
+  it "nicknameとemail、passwordとpassword_confirmationとbirthdayとfirst_name_ccとlast_name_ccとfirst_name_kanaとlast_name_kanaが存在すれば登録できる" do
+    expect(@user).to be_valid
+  end
+
   it 'nameが空では登録できないこと' do
     @user.name = nil
     @user.valid?
@@ -46,6 +50,20 @@ RSpec.describe User, type: :model do
     @user.password = '123aaa'
     @user.password_confirmation = '123aaa'
     expect(@user).to be_valid
+  end
+
+  it 'passwordが英字のみの場合に登録ができないこと' do
+    @user.password = 'aaaaaa'
+    @user.password_confirmation = 'aaaaaa'
+    @user.valid?
+    expect(@user.errors.full_messages).to include("Password 半角英数字混合での入力が必須である")
+  end
+
+  it 'passwordが数字のみの場合に登録ができないこと' do
+    @user.password = '123456'
+    @user.password_confirmation = '123456'
+    @user.valid?
+    expect(@user.errors.full_messages).to include("Password 半角英数字混合での入力が必須である")
   end
 
   it 'passwordが存在してもpassword_confirmationが空では登録できない' do

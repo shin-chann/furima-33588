@@ -8,10 +8,6 @@ class User < ApplicationRecord
   has_many :purchases
 
   validates :name, presence: true
-  validates :first_name_cc, presence: true
-  validates :last_name_cc, presence: true
-  validates :first_name_kana, presence: true
-  validates :last_name_kana, presence: true
   validates :birthday, presence: true
 
   validates :password, format: { with: /\A(?=.*?[a-z])(?=.*?\d)[a-z\d]+\z/i, message: '半角英数字混合での入力が必須である' }
