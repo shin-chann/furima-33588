@@ -79,6 +79,19 @@ RSpec.describe Item, type: :model do
         expect(@item.errors.full_messages).to include("Price is not a number")
       end
 
+      it 'priceが数字以外の場合出品できないこと' do
+        @item.price = "あいう"
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price is not a number")
+      end
+      
+      it 'priceが空では出品できないこと' do
+        @item.price = nil
+        @item.valid?
+        expect(@item.errors.full_messages).to include("Price can't be blank")
+      end
+
+
       it "ユーザーが紐付いていないと商品は出品できない" do
         @item.user = nil
         @item.valid?
