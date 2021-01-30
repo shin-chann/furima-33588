@@ -6,7 +6,6 @@ class Item < ApplicationRecord
   belongs_to :number_of_time
   belongs_to :state
   belongs_to :user
-  has_one :purchase
   has_one_attached :image
 
   #空の投稿を保存できないようにする
@@ -14,6 +13,7 @@ class Item < ApplicationRecord
     validates :product_name
     validates :image
     validates :explanation
+    validates :price
     
   end
   #ジャンルの選択が「--」の時は保存できないようにする
