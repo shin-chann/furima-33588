@@ -43,6 +43,8 @@ ActiveRecord::Schema.define(version: 2021_01_27_090638) do
     t.integer "number_of_time_id", null: false
     t.integer "price", null: false
     t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["user_id"], name: "index_items_on_user_id"
   end
 
