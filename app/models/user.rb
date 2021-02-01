@@ -18,7 +18,7 @@ class User < ApplicationRecord
     validates :first_name_cc
     validates :last_name_cc
   end
-  
+
   with_options presence: true, format: { with: /\A[ァ-ヶー－]+\z/, message: '全角（カタカナ）での入力が必須である' } do
     validates :first_name_kana
     validates :last_name_kana

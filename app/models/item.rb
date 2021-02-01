@@ -8,15 +8,14 @@ class Item < ApplicationRecord
   belongs_to :user
   has_one_attached :image
 
-  #空の投稿を保存できないようにする
-  with_options presence: true do 
+  # 空の投稿を保存できないようにする
+  with_options presence: true do
     validates :product_name
     validates :image
     validates :explanation
     validates :price
-    
   end
-  #ジャンルの選択が「--」の時は保存できないようにする
+  # ジャンルの選択が「--」の時は保存できないようにする
   with_options numericality: { other_than: 0 } do
     validates :area_id
     validates :burden_id
@@ -25,7 +24,7 @@ class Item < ApplicationRecord
     validates :state_id
   end
 
-  #価格の上限・下限(半角数字)
+  # 価格の上限・下限(半角数字)
   validates_numericality_of :price, greater_than_or_equal_to: 300, less_than_or_equal_to: 9_999_999
   validates :price, format: { with: /\A[0-9]+\z/, message: '半角数字での入力が必須である' }
 end
