@@ -1,7 +1,8 @@
 class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new]
-
-  
+  before_action :set_item, only:[:edit, :update]
+  before_action :move_to_session, only:[:edit, :update]
+  before_action :move_to_index , only:[:edit, :update]
   def index
     @items = Item.order('created_at DESC')
   end
@@ -43,5 +44,19 @@ class ItemsController < ApplicationController
                                  :price, :image).merge(user_id: current_user.id)
   end
 
+  def set_item
+    @item = Item.find(params[:id])
+  end
 
+  def move_to_session
+    unless user_signed_in? && current_user.id == @item.user_id
+      redirect_to new_user_session_path
+    end
+  end
+
+  def move_to_index
+    if user_signed_in? && current_user.id
+      redirect_to root_path
+    end
+  end
 end
