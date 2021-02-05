@@ -7,6 +7,7 @@ class Item < ApplicationRecord
   belongs_to :state
   belongs_to :user
   has_one_attached :image
+  has_one :purchase
 
   # 空の投稿を保存できないようにする
   with_options presence: true do
