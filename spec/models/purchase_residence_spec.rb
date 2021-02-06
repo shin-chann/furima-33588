@@ -12,10 +12,16 @@ RSpec.describe PurchaseResidence, type: :model do
     it '必要な情報を適切に入力すると、商品の購入ができること' do
       expect(@purchase).to be_valid
     end
+
+    it 'buildingが空でも購入できること' do
+      @purchase.building = nil
+      @purchase.valid?
+    end
+
   end
 
   context '商品購入ができない場合' do
-    it 'user_idが空では出品できないこと' do
+    it 'user_idが空では購入できないこと' do
       @purchase.user_id = nil
       @purchase.valid?
       expect(@purchase.errors.full_messages).to include("User can't be blank")
@@ -89,6 +95,12 @@ RSpec.describe PurchaseResidence, type: :model do
 
     it 'phoneが英数混合では購入できない' do
       @purchase.phone = 'a11111111111'
+      @purchase.valid?
+      expect(@purchase.errors.full_messages).to include("Phone is invalid")
+    end
+
+    it 'phoneが全角数字入力された場合は購入できない' do
+      @purchase.phone = '１１１１１１１１１１１'
       @purchase.valid?
       expect(@purchase.errors.full_messages).to include("Phone is invalid")
     end

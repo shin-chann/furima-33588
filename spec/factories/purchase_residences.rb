@@ -4,6 +4,7 @@ FactoryBot.define do
     area_id { 1 }
     city { '新宿' }
     address { '歌舞伎町' }
+    building { '建物 '}
     phone { '09000000000' }
     token { '123' }
   end
