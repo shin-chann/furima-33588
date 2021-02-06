@@ -1,6 +1,6 @@
 class PurchasesController < ApplicationController
   before_action :set_item, only:[:index, :create]
-  before_action :move_to_session, only:[:index, :create]
+  before_action :authenticate_user!, only:[:index, :create]
   before_action :move_to_index, only:[:index, :create]
 
   def index
@@ -10,11 +10,11 @@ class PurchasesController < ApplicationController
   def create
     @purchase = PurchaseResidence.new(purchase_params)
     if @purchase.valid?
-      Payjp.api_key = ENV["PAYJP_SECRET_KEY"]  # 自身のPAY.JPテスト秘密鍵を記述しましょう
+      Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
       Payjp::Charge.create(
-        amount: @item.price,  # 商品の値段
-        card: purchase_params[:token],    # カードトークン
-        currency: 'jpy'                 # 通貨の種類（日本円）
+        amount: @item.price,
+        card: purchase_params[:token],
+        currency: 'jpy'
       )
       @purchase.save
       return redirect_to root_path
@@ -36,12 +36,6 @@ class PurchasesController < ApplicationController
   def move_to_index
     if current_user.id == @item.user_id || @item.purchase.present?
       redirect_to root_path
-    end
-  end
-
-  def move_to_session
-    unless user_signed_in?
-      redirect_to user_session_path
     end
   end
 end

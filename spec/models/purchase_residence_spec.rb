@@ -2,7 +2,10 @@ require 'rails_helper'
 
 RSpec.describe PurchaseResidence, type: :model do
   before do
-    @purchase = FactoryBot.build(:purchase_residence)
+    @user = FactoryBot.create(:user)
+    @item = FactoryBot.create(:item)
+    @purchase = FactoryBot.build(:purchase_residence,user_id: @user.id , item_id: @item.id)
+    sleep 0.5
   end
 
   context '商品購入ができる場合' do
@@ -80,6 +83,12 @@ RSpec.describe PurchaseResidence, type: :model do
 
     it 'phoneが11桁以上では購入できないこと' do
       @purchase.phone = '111111111111'
+      @purchase.valid?
+      expect(@purchase.errors.full_messages).to include("Phone is invalid")
+    end
+
+    it 'phoneが英数混合では購入できない' do
+      @purchase.phone = 'a11111111111'
       @purchase.valid?
       expect(@purchase.errors.full_messages).to include("Phone is invalid")
     end
